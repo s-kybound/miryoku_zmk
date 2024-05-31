@@ -78,6 +78,7 @@ jobs:
         run: |
           cd miryoku_zmk
           git submodule update --init --recursive
+          cd ..
       - name: main
         id: main
         run: |
