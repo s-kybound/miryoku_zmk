@@ -74,6 +74,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: 'miryoku_zmk'
+      - name: initialize submodules
+        run: git submodule update --init --recursive
       - name: main
         id: main
         run: |
