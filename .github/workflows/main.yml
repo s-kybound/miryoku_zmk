@@ -75,7 +75,9 @@ jobs:
         with:
           path: 'miryoku_zmk'
       - name: initialize submodules
-        run: git submodule update --init --recursive
+        run: |
+          cd miryoku_zmk
+          git submodule update --init --recursive
       - name: main
         id: main
         run: |
