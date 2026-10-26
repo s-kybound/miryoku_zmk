@@ -1,0 +1,30 @@
+// Copyright 2024 Manna Harbour
+// https://github.com/manna-harbour/miryoku
+
+#include "../miryoku/custom_config.h"
+#include "../miryoku/mapping/41/charybdis.h"
+#include "../miryoku/miryoku.dtsi"
+
+/* The mouse layer slot carries code symbols, so drop the middle click the
+   thumb combo kludge puts there. combo.c iterates children with
+   DT_INST_FOREACH_CHILD, which ignores status, hence the delete. */
+/ {
+  combos {
+    /delete-node/ thumbcombos_U_MOUSE_RIGHT;
+  };
+};
+
+/* Both clicks together is a middle click. */
+/ {
+  combos {
+    compatible = "zmk,combos";
+
+    combo_u_btn3 {
+      bindings = <U_BTN3>;
+      key-positions = <19 20>;
+      layers = <U_BALL U_GAME>;
+      timeout-ms = <50>;
+      slow-release;
+    };
+  };
+};

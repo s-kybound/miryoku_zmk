@@ -1,0 +1,7 @@
+#include "../charybdis_common/charybdis.dtsi"
+#include "../charybdis_common/charybdis_layout.dtsi"
+#include "../charybdis_common/charybdis_trackball.dtsi"
+
+&default_transform {
+	col-offset = <6>;
+};

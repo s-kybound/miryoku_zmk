@@ -1,0 +1,4 @@
+# Copyright 2024 Manna Harbour
+# https://github.com/manna-harbour/miryoku
+
+outboard_modules='280Zo/zmk-pmw3610-driver/main'

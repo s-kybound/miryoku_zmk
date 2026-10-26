@@ -1,0 +1,2 @@
+#include "../charybdis_common/charybdis.dtsi"
+#include "../charybdis_common/charybdis_layout.dtsi"
