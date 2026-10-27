@@ -6,45 +6,8 @@ config ZMK_KEYBOARD_NAME
 config ZMK_SPLIT
 	default y
 
-config SPI
-	default y
-
-config INPUT
-	default y
-
 config ZMK_POINTING
 	default y
-
-config ZMK_INPUT_LISTENER
-	default y
-
-config PMW3610_ALT
-	default y
-
-config PMW3610_ALT_SMART_ALGORITHM
-	default y
-
-config PMW3610_ALT_REPORT_INTERVAL_MIN
-	default 12
-
-# sleep sooner and poll slower once idle
-config PMW3610_ALT_RUN_DOWNSHIFT_TIME_MS
-	default 2000
-
-config PMW3610_ALT_REST1_SAMPLE_TIME_MS
-	default 100
-
-config PMW3610_ALT_REST1_DOWNSHIFT_TIME_MS
-	default 3000
-
-config PMW3610_ALT_REST2_SAMPLE_TIME_MS
-	default 200
-
-config PMW3610_ALT_REST2_DOWNSHIFT_TIME_MS
-	default 30000
-
-config PMW3610_ALT_REST3_SAMPLE_TIME_MS
-	default 300
 
 endif
 
@@ -53,7 +16,6 @@ if SHIELD_CHARYBDIS_RIGHT
 config ZMK_SPLIT_ROLE_CENTRAL
 	default y
 
-# report the left half's battery too; no display to show it on
 config ZMK_SPLIT_BLE_CENTRAL_PERIPHERALS
 	default 1
 
