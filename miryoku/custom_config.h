@@ -90,23 +90,13 @@ U_HML(LGUI, A),    U_HML(LALT, R),    U_HML(LCTRL, S),   U_HML(LSHFT, T),   &kp 
 U_LT(U_BUTTON, Z), U_HML(RALT, X),    &kp C,             U_BALL_D,          &kp V,             &kp K,             &kp H,             &kp COMMA,         U_HMR(RALT, DOT),  U_LT(U_BUTTON, SLASH),  \
 U_NP,              U_NP,              U_LT(U_MEDIA, ESC),U_LT(U_NAV, SPACE),U_LT(U_MOUSE, TAB),U_LT(U_SYM, RET),  U_LT(U_NUM, BSPC), U_LT(U_FUN, DEL),  U_NP,              U_NP
 
-// the trackball makes the cursor keys redundant, so on charybdis this slot
-// carries code symbols instead
-#if defined (MIRYOKU_KEYBOARD_CHARYBDIS)
-#define U_MOUSE_NAME "Code"
+// we repurpose the mouse layer for a code layer, replacing all of the symbols
+// i hated myself typing in different layers
 #define MIRYOKU_LAYER_MOUSE \
-U_BOOT,            &u_to_U_TAP,       &u_to_U_EXTRA,     &u_to_U_BASE,      U_NA,              &kp BSLH,          &kp LT,            &kp LBRC,          &kp RBRC,          &kp GT, \
+U_BOOT,            &u_to_U_TAP,       &u_to_U_EXTRA,     &u_to_U_BASE,      U_NA,              &kp MINUS,         &kp UNDER,         &kp TILDE,         &kp GRAVE,         &kp PIPE, \
 &kp LGUI,          &kp LALT,          &kp LCTRL,         &kp LSHFT,         U_NA,              &td_caps,          &kp LPAR,          &kp LBKT,          &kp RBKT,          &kp RPAR, \
-U_NA,              &kp RALT,          &u_to_U_SYM,       &u_to_U_MOUSE,     U_NA,              &kp SEMI,          &kp PIPE,          &kp UNDER,         &kp TILDE,         &kp GRAVE, \
-U_NP,              U_NP,              U_NA,              U_NA,              U_NA,              &kp EQUAL,         &kp MINUS,         U_NA,              U_NP,              U_NP
-#else
-#define U_MOUSE_NAME "Mouse"
-#define MIRYOKU_LAYER_MOUSE \
-U_BOOT,            &u_to_U_TAP,       &u_to_U_EXTRA,     &u_to_U_BASE,      U_NA,              U_RDO,             U_PST,             U_CPY,             U_CUT,             U_UND,                  \
-&kp LGUI,          &kp LALT,          &kp LCTRL,         &kp LSHFT,         U_NA,              U_NU,              U_MS_L,            U_MS_D,            U_MS_U,            U_MS_R,                 \
-U_NA,              &kp RALT,          &u_to_U_SYM,       &u_to_U_MOUSE,     U_NA,              U_NU,              U_WH_L,            U_WH_D,            U_WH_U,            U_WH_R,                 \
-U_NP,              U_NP,              U_NA,              U_NA,              U_NA,              U_BTN1,            U_BTN2,            U_BTN3,            U_NP,              U_NP
-#endif
+U_NA,              &kp RALT,          &u_to_U_SYM,       &u_to_U_MOUSE,     U_NA,              &kp AMPS,          &kp LT,            &kp LBRC,          &kp RBRC,          &kp GT, \
+U_NP,              U_NP,              U_NA,              U_NA,              U_NA,              &kp EQUAL,         &kp COLON,         U_NA,              U_NP,              U_NP
 
 // move bluetooth clear to the innermost upper left hand key - its too easy to press otherwise
 #define MIRYOKU_LAYER_MEDIA \
@@ -133,7 +123,7 @@ MIRYOKU_X(EXTRA,  "Extra")    \
 MIRYOKU_X(TAP,    "Tap")      \
 MIRYOKU_X(BUTTON, "Button")   \
 MIRYOKU_X(NAV,    "Nav")      \
-MIRYOKU_X(MOUSE,  U_MOUSE_NAME)    \
+MIRYOKU_X(MOUSE,  "Code")    \
 MIRYOKU_X(MEDIA,  "Media")    \
 MIRYOKU_X(NUM,    "Num")      \
 MIRYOKU_X(SYM,    "Sym")      \
