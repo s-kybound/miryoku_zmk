@@ -101,13 +101,6 @@ jobs:
 
           configfile="${GITHUB_WORKSPACE}/miryoku_zmk/miryoku/custom_config.h"
 
-          tmpfile="$configfile.tmp"
-          echo -n '#define ' > "$tmpfile"
-          echo -n "MIRYOKU_KEYBOARD_$keyboard_base" | tr  -c '[:alnum:]' '_' | tr '[:lower:]' '[:upper:]' >> "$tmpfile"
-          echo >> "$tmpfile"
-          cat "$configfile" >> "$tmpfile"
-          mv "$tmpfile" "$configfile"
-
           run_name="miryoku_zmk"
           if [ -n "${{ matrix.shield }}" -a "${{ matrix.shield }}" != 'default' ]
           then
@@ -117,11 +110,10 @@ jobs:
 
           hash_length=8
 
-          if [ -n "${{ matrix.custom_config }}" -a "${{ matrix.custom_config }}" != 'default' ]
-          then
-            echo "${{ matrix.custom_config }}" >> "$configfile"
-            run_name="$run_name config_"`echo "${{ matrix.custom_config }}" | md5sum | head -c "$hash_length"`
-          fi
+          tmpfile="$configfile.tmp"
+          echo -n '#define ' > "$tmpfile"
+          echo -n "MIRYOKU_KEYBOARD_$keyboard_base" | tr  -c '[:alnum:]' '_' | tr '[:lower:]' '[:upper:]' >> "$tmpfile"
+          echo >> "$tmpfile"
 
           for option in "alphas_${{ matrix.alphas }}" "extra_${{ matrix.extra }}" "tap_${{ matrix.tap }}" "nav_${{ matrix.nav }}" "clipboard_${{ matrix.clipboard }}" "layers_${{ matrix.layers }}" "mapping_${{ matrix.mapping }}"
           do
@@ -130,10 +122,19 @@ jobs:
               *_default ) ;;
               * )
                 run_name="$run_name $option"
-                echo "#define MIRYOKU_"`echo "$option" | tr 'a-z' 'A-Z'` >> "$configfile"
+                echo "#define MIRYOKU_"`echo "$option" | tr 'a-z' 'A-Z'` >> "$tmpfile"
                 ;;
             esac
           done
+
+          cat "$configfile" >> "$tmpfile"
+          mv "$tmpfile" "$configfile"
+
+          if [ -n "${{ matrix.custom_config }}" -a "${{ matrix.custom_config }}" != 'default' ]
+          then
+            echo "${{ matrix.custom_config }}" >> "$configfile"
+            run_name="$run_name config_"`echo "${{ matrix.custom_config }}" | md5sum | head -c "$hash_length"`
+          fi
 
           artifact_dir="${GITHUB_WORKSPACE}/artifacts"
           echo "artifact_dir=$artifact_dir" >> $GITHUB_OUTPUT

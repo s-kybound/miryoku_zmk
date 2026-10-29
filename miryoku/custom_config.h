@@ -68,8 +68,7 @@ ZMK_BEHAVIOR(td_caps, tap_dance,
 )
 
 #if defined (MIRYOKU_KEYBOARD_CHARYBDIS)
-/* hold D for the trackball layer. only the clicks (19 20) and the snipe and
-   scroll keys (26 27) can trigger the hold, so D stays a plain D otherwise */
+/* hold for trackball layer; tap sends the alpha at this position */
 ZMK_BEHAVIOR(u_ball, hold_tap,
     flavor = "balanced";
     tapping-term-ms = <200>;
@@ -78,17 +77,62 @@ ZMK_BEHAVIOR(u_ball, hold_tap,
     bindings = <&mo>, <&kp>;
     hold-trigger-key-positions = <19 20 26 27>;
 )
-
-#define U_BALL_D &u_ball U_BALL D
+#define U_BALL_KEY(K) &u_ball U_BALL K
 #else
-#define U_BALL_D &kp D
+#define U_BALL_KEY(K) &kp K
 #endif
 
-#define MIRYOKU_LAYER_BASE \
-&kp Q,             &kp W,             &kp F,             &kp P,             &kp B,             &kp J,             &kp L,             &kp U,             &kp Y,             &kp SQT,                \
-U_HML(LGUI, A),    U_HML(LALT, R),    U_HML(LCTRL, S),   U_HML(LSHFT, T),   &kp G,             &kp M,             U_HMR(LSHFT, N),   U_HMR(LCTRL, E),   U_HMR(LALT, I),    U_HMR(LGUI, O),         \
-U_LT(U_BUTTON, Z), U_HML(RALT, X),    &kp C,             U_BALL_D,          &kp V,             &kp K,             &kp H,             &kp COMMA,         U_HMR(RALT, DOT),  U_LT(U_BUTTON, SLASH),  \
+// ── alpha layout definitions (keycodes only, no behaviors) ──
+
+#define ALPHAS_COLEMAKDH \
+    Q, W, F, P, B,      J, L, U, Y, SQT, \
+    A, R, S, T, G,      M, N, E, I, O, \
+    Z, X, C, D, V,      K, H, COMMA, DOT, SLASH
+
+#define ALPHAS_QWERTY \
+    Q, W, E, R, T,      Y, U, I, O, P, \
+    A, S, D, F, G,      H, J, K, L, SQT, \
+    Z, X, C, V, B,      N, M, COMMA, DOT, SLASH
+
+#define ALPHAS_WORKMAN \
+    Q, D, R, W, B,      J, F, U, P, SQT, \
+    A, S, H, T, G,      Y, N, E, O, I, \
+    Z, X, M, C, V,      K, L, COMMA, DOT, SLASH
+
+#define ALPHAS_CANARY \
+    W, L, Y, P, B,      Z, F, O, U, SQT, \
+    C, R, S, T, G,      M, N, E, I, A, \
+    Q, J, V, D, K,      X, H, SLASH, COMMA, DOT
+
+#define ALPHAS_DVORAK \
+    SQT, COMMA, DOT, P, Y,    F, G, C, R, L, \
+    A, O, E, U, I,            D, H, T, N, S, \
+    SLASH, Q, J, K, X,        B, M, W, V, Z
+
+// wraps 30 alpha keycodes with HRMs, layer-taps, ball hold-tap, and thumbs
+#define MAKE_BASE(...) _MAKE_BASE(__VA_ARGS__)
+#define _MAKE_BASE( \
+    K00, K01, K02, K03, K04,  K05, K06, K07, K08, K09, \
+    K10, K11, K12, K13, K14,  K15, K16, K17, K18, K19, \
+    K20, K21, K22, K23, K24,  K25, K26, K27, K28, K29  \
+) \
+&kp K00,             &kp K01,             &kp K02,             &kp K03,             &kp K04,             &kp K05,             &kp K06,             &kp K07,             &kp K08,             &kp K09,                \
+U_HML(LGUI, K10),    U_HML(LALT, K11),    U_HML(LCTRL, K12),   U_HML(LSHFT, K13),   &kp K14,             &kp K15,             U_HMR(LSHFT, K16),   U_HMR(LCTRL, K17),   U_HMR(LALT, K18),    U_HMR(LGUI, K19),       \
+&kp K20,             U_HML(RALT, K21),    &kp K22,             U_BALL_KEY(K23),     &kp K24,             &kp K25,             &kp K26,             &kp K27,             U_HMR(RALT, K28),    &kp K29,    \
 U_NP,              U_NP,              U_LT(U_MEDIA, ESC),U_LT(U_NAV, SPACE),U_LT(U_MOUSE, TAB),U_LT(U_SYM, RET),  U_LT(U_NUM, BSPC), U_LT(U_FUN, DEL),  U_NP,              U_NP
+
+// select base alphas via MIRYOKU_ALPHAS_* (set by workflow or manually)
+#if defined(MIRYOKU_ALPHAS_QWERTY)
+#define MIRYOKU_LAYER_BASE MAKE_BASE(ALPHAS_QWERTY)
+#elif defined(MIRYOKU_ALPHAS_WORKMAN)
+#define MIRYOKU_LAYER_BASE MAKE_BASE(ALPHAS_WORKMAN)
+#elif defined(MIRYOKU_ALPHAS_CANARY)
+#define MIRYOKU_LAYER_BASE MAKE_BASE(ALPHAS_CANARY)
+#elif defined(MIRYOKU_ALPHAS_DVORAK)
+#define MIRYOKU_LAYER_BASE MAKE_BASE(ALPHAS_DVORAK)
+#else
+#define MIRYOKU_LAYER_BASE MAKE_BASE(ALPHAS_COLEMAKDH)
+#endif
 
 // we repurpose the mouse layer for a code layer, replacing all of the symbols
 // i hated myself typing in different layers

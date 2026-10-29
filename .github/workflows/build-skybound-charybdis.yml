@@ -2,7 +2,20 @@
 # https://github.com/manna-harbour/miryoku
 
 name: 'Build Skybound Charybdis'
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      alphas:
+        description: 'Alpha layout'
+        type: choice
+        default: 'default'
+        options:
+          - default
+          - COLEMAKDH
+          - QWERTY
+          - WORKMAN
+          - CANARY
+          - DVORAK
 jobs:
   build:
     uses: ./.github/workflows/main.yml
@@ -10,3 +23,4 @@ jobs:
     with:
       board: '["nice_nano//zmk"]'
       shield: '["charybdis_left","charybdis_right"]'
+      alphas: '["${{ inputs.alphas || ''default'' }}"]'
